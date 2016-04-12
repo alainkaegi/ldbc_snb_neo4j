@@ -1,0 +1,2 @@
+The validation currently fails with nine incorrect outputs.  All
+discrepancies attributable to LdbcQuery10.

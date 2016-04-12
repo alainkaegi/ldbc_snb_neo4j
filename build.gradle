@@ -1,0 +1,213 @@
+/**
+ * Copyright © 2016 Alain Kägi
+ */
+
+def neo4jVersion = '2.1.4'
+def ldbcDriverVersion = '0.2-SNAPSHOT'
+
+def db = '../ldbc_socialnet_bm_neo4j/db/'
+def pathToInput = '../ldbc_snb_datagen/substitution_parameters/'
+
+apply plugin: 'java'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.neo4j:neo4j:${neo4jVersion}"
+    compile "com.ldbc.driver:jeeves:${ldbcDriverVersion}"
+}
+
+task ldbc(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.ldbc.driver.Client'
+    args = [ '-P', 'ldbc.properties']
+}
+
+task validate(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.ldbc.driver.Client'
+    args = [ '-P', 'validation.properties']
+}
+
+// Run complex queries in verbose (-Pverbose) or in timing (-Ptiming) mode.
+String getQueryArg() {
+    return project.hasProperty('timing') ? '-t' : '-v'
+}
+
+task query1(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query1Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_1_param.txt" ]
+}
+
+task query2(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query2Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_2_param.txt" ]
+}
+
+task query3(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query3Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_3_param.txt" ]
+}
+
+task query4(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query4Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_4_param.txt" ]
+}
+
+task query5(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query5Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_5_param.txt" ]
+}
+
+task query6(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query6Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_6_param.txt" ]
+}
+
+task query7(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query7Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_7_param.txt" ]
+}
+
+task query8(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query8Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_8_param.txt" ]
+}
+
+task query9(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query9Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_9_param.txt" ]
+}
+
+task query10(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query10Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_10_param.txt" ]
+}
+
+task query11(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query11Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_11_param.txt" ]
+}
+
+task query12(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query12Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_12_param.txt" ]
+}
+
+task query13(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query13Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_13_param.txt" ]
+}
+
+task query14(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.Query14Driver'
+    args = [ getQueryArg(),
+             "${db}",
+             "${pathToInput}/query_14_param.txt" ]
+}
+
+task shortquery1(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.ShortQuery1Driver'
+    if (project.hasProperty('personId'))
+        args = [ "${db}", personId ]
+    else
+        args = [ "${db}", -1 ]
+}
+
+task shortquery2(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.ShortQuery2Driver'
+    if (project.hasProperty('personId'))
+        args = [ "${db}", personId ]
+    else
+        args = [ "${db}", -1 ]
+}
+
+task shortquery3(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.ShortQuery3Driver'
+    if (project.hasProperty('personId'))
+        args = [ "${db}", personId ]
+    else
+        args = [ "${db}", -1 ]
+}
+
+task shortquery4(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.ShortQuery4Driver'
+    if (project.hasProperty('messageId'))
+        args = [ "${db}", messageId ]
+    else
+        args = [ "${db}", -1 ]
+}
+
+task shortquery5(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.ShortQuery5Driver'
+    if (project.hasProperty('messageId'))
+        args = [ "${db}", messageId ]
+    else
+        args = [ "${db}", -1 ]
+}
+
+task shortquery6(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.ShortQuery6Driver'
+    if (project.hasProperty('messageId'))
+        args = [ "${db}", messageId ]
+    else
+        args = [ "${db}", -1 ]
+}
+
+task shortquery7(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'ldbc.drivers.ShortQuery7Driver'
+    if (project.hasProperty('messageId'))
+        args = [ "${db}", messageId ]
+    else
+        args = [ "${db}", -1 ]
+}
