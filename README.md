@@ -48,7 +48,7 @@ Two key parameters controls the benchmark's behavior.
   queries linked against another version.
 
   When does this parameter come into play?
-  - When configuring the data generator
+  - When configuring the data importer
   - When configuring the gradle build file
 
 - Scale factor
@@ -67,6 +67,8 @@ Requirements
 - java 1.7
 - My version of the Neo4j Data Importer for the LDBC Social Network
   Benchmark [5]
+- maven 3.0.5
+- hadoop 2.6.0
 
 Instructions
 ============
@@ -102,12 +104,13 @@ Generate data
 Generate a dataset using the LDBC SNB data generator [2] with the
 scale factor of your choice, the PARAM_GENERATION environment variable
 set to 1, and most other parameters left to their default values.  In
-the end the goal is to have ../ldbc_snb_datagen/data/social_network/
+the end the goal is to have ../ldbc_snb_datagen/social_network/
 holding the CSV files to seed the benchmark graph database and
 ../ldbc_snb_datagen/substitution_parameters/ containing files used as
 input to the LDBC benchmark or to the complex queries run in
 standalone mode.  You may have to issue a command like bin/hdfs dfs
--get data ../ldbc_snb_datagen/data/ to retrieve your data.
+-get social_network/ ../ldbc_snb_datagen/social_network/ to retrieve
+your data.
 
 Load the database
 -----------------
@@ -115,8 +118,8 @@ Load the database
 1. Merge the CSV files.  The data generator mentioned in the previous
    section may split entities across multiple files.  Use the provided
    concatenation script to merge the results (e.g., ./scripts/cat.sh
-   ../ldbc_snb_datagen/data/social_network/
-   ../ldbc_snb_datagen/data/social_network_merged/).
+   ../ldbc_snb_datagen/social_network/
+   ../ldbc_snb_datagen/social_network_merged/).
 
 2. Prepare the loader.  I use a loader available elsewhere [4] with my
    own set of modifications available in the branch of a fork [5].
@@ -126,7 +129,7 @@ Load the database
    ../ldbc_socialnet_bm_neo4j/src/main/resources/ldbc_neo4j.properties
    to change 'data_dir' with the directory containing the merged CSV
    files produced in the previous step (e.g.,
-   "../ldbc_snb_datagen/data/social_network_merged/") and 'db_dir' to
+   "../ldbc_snb_datagen/social_network_merged/") and 'db_dir' to
    "../ldbc_socialnet_bm_neo4j/db/".
 
 3. Build the loader (e.g., cd ../ldbc_socialnet_bm_neo4j/;
@@ -141,9 +144,14 @@ Install ldbc_driver
 -------------------
 
 $ git clone https://github.com/ldbc/ldbc_driver
+
 $ cd ../ldbc_driver/
+
 $ git checkout 0.2
-$ mvn clean package install -DskipTests
+
+$ mvn clean package -DskipTests
+
+$ mvn install -DskipTests
 
 Build our queries
 -----------------
@@ -192,16 +200,16 @@ Validate the implementation
 Follow the instructions that come with the LDBC SNB interactive
 validation project [6].
 
-1. Clone the project in ../ldbc_snb_interactive_validation/
+1. Clone the project in ../ldbc_snb_interactive_validation/.
 
 2. Untar the content of
    ldbc_snb_interactive_validation/neo4j/neo4j--validation_set.tar.gz
-   in, say, ../ldbc_snb_interactive_validation/neo4j/e/
+   in, say, ../ldbc_snb_interactive_validation/neo4j/e/.
 
 3. Concatenate CSV content of
    ldbc_snb_interactive_validation/neo4j/e/social_network/string_date/
    into ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date_merged/
-   (e.g., ./scripts/cat.sh ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date/ ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date_merged/)
+   (e.g., ./scripts/cat.sh ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date/ ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date_merged/).
 
 4. Load CSV files into a database using my version of the Neo4j Data
    Importer [5] into ../ldbc_socialnet_bm_neo4j/validation_db/.
@@ -222,8 +230,8 @@ validation project [6].
 7. Important: must reload the validation database from scratch (step
    4) every time you run validation.
 
-Reference
-=========
+References
+==========
 
 [1] Arnau Prat (Editor).  LDBC Social Network Benchmark (SNB), v0.2.2
     First Public Draft, release 0.2.2.  Retrieved December 17, 2015.
