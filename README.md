@@ -164,14 +164,25 @@ Prepare a benchmark run
 Copy the property file corresponding to the chosen scale factor and
 name it ldbc.properties (e.g., cp
 ../ldbc_driver/workloads/ldbc/snb/interactive/ldbc_snb_interactive_SF-0001.properties
-./ldbc.properties).  Edit ./ldbc.properties to configure your
-benchmark run.  Minimally, set 'database' to "ldbc.glue.Neo4jDb", add
-'url' to point to the correct database (e.g.,
-../ldbc_socialnet_bm_neo4j/db/), add 'operation_count' to the desired
-value, and make sure 'ldbc.snb.interactive.parameters_dir' points to
-the query parameter files produced by the data generation phase (e.g.,
-../ldbc_snb_datagen/substitution_parameters/).  You may also choose to
-leave the short read and update queries enabled.
+./ldbc.properties).  Copy the update stream property file produced by
+the data generation process (e.g, cp
+../ldbc_data_gen/social_network/updateStream.properties .).  Edit
+./ldbc.properties to configure your benchmark run.  For instance,
+
+- set 'database' to "ldbc.glue.Neo4jDb"
+
+- add 'url' to point to the correct database (e.g.,
+  "../ldbc_socialnet_bm_neo4j/db/")
+
+- add 'operation_count' and set it to the desired value
+
+- set 'ldbc.snb.interactive.parameters_dir' to the query parameter
+  files produced by the data generation phase (e.g.,
+  "../ldbc_snb_datagen/substitution_parameters/")
+
+- set 'ldbc.snb.interactive.updates_dir' to the directory containing
+  the update stream files produced by the data generation phase (e.g.,
+  "../ldbc_snb_datagen/social_network/")
 
 Run the benchmark
 -----------------
