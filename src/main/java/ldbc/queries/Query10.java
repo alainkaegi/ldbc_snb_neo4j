@@ -14,6 +14,7 @@ import java.util.Queue;
 import java.util.PriorityQueue;
 
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Calendar;
 
 import org.neo4j.graphdb.Transaction;
@@ -51,8 +52,8 @@ public class Query10 {
         // until we know a given entry is a keeper.
         Queue<Query10SortResult> queue = new PriorityQueue<>(limit + 1);
 
-        // Create a traversal description for the person's friends and
-        // friends of friends.
+        // Create a traversal description for the person's friends of
+        // friends.
         TraversalDescription knowsTraversal = db.traversalDescription()
             .breadthFirst()
             .relationships(LdbcUtils.EdgeType.KNOWS)
@@ -68,12 +69,12 @@ public class Query10 {
             for (Relationship edgeToTag : person.getRelationships(LdbcUtils.EdgeType.HAS_INTEREST))
                 personInterests.add(edgeToTag.getEndNode());
 
-            // Iterate over the person's friends and friends of friends.
+            // Iterate over the person's friends of friends.
             for (Node friend : knowsTraversal.traverse(person).nodes()) {
 
                 // Eliminate friends not born in the month.
                 Date birthday = new Date(LdbcUtils.getBirthday(friend));
-                Calendar cal = Calendar.getInstance();
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 cal.setTime(birthday);
                 // Calendar.MONTH ranges from 0 to 11;
                 // month ranges from 1 to 12.

@@ -1,2 +1,1 @@
-The validation currently fails with nine incorrect outputs.  All
-discrepancies attributable to LdbcQuery10.
+Validation now runs successfully.

@@ -51,10 +51,15 @@ public class Query5 {
         Queue<Query5SortResult> queue = new PriorityQueue<>(limit + 1);
 
         // A hash mapping a friend to a set of forum.
-        Map<Node, Set<Node>> friends = new HashMap<Node, Set<Node>>();
+        Map<Node, Set<Node>> forumsOfFriends = new HashMap<Node, Set<Node>>();
 
         // Maintain a number of posts per forum.
         Map<Node, Integer> counts = new HashMap<Node, Integer>();
+
+        // In a multithreaded environment successive use of the same
+        // Neo4j traversal description may yield different results.
+        // So we remember our friends in a private hash instead.
+        Set<Node> friends = new HashSet<Node>();
 
         // Create a traversal description for the person's friends
         // and friends of friends.
@@ -70,6 +75,8 @@ public class Query5 {
             // Iterate over the person's friends and friends of friends.
             for (Node friend : knowsTraversal.traverse(person).nodes()) {
 
+                friends.add(friend);
+
                 // Iterate over the friend's forums.
                 Set<Node> forums = new HashSet<Node>();
                 for (Relationship edgeFromForum : friend.getRelationships(LdbcUtils.EdgeType.HAS_MEMBER)) {
@@ -79,11 +86,11 @@ public class Query5 {
                     forums.add(forum);
                     counts.put(forum, 0);
                 }
-                friends.put(friend, forums);
+                forumsOfFriends.put(friend, forums);
             }
 
             // Iterate over these friends again.
-            for (Node friend : knowsTraversal.traverse(person).nodes()) {
+            for (Node friend : friends) {
 
                 // And iterate over the friend's posts.
                 for (Relationship edgeFromMessage : friend.getRelationships(LdbcUtils.EdgeType.HAS_CREATOR)) {
@@ -93,7 +100,7 @@ public class Query5 {
                         continue;
 
                     Node forum = LdbcUtils.findForumOfPost(db, message);
-                    if (friends.get(friend).contains(forum))
+                    if (forumsOfFriends.get(friend).contains(forum))
                         counts.put(forum, counts.get(forum) + 1);
                 }
             }
