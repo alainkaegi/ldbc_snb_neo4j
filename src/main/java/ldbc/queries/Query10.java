@@ -51,8 +51,8 @@ public class Query10 {
         // until we know a given entry is a keeper.
         Queue<Query10SortResult> queue = new PriorityQueue<>(limit + 1);
 
-        // Create a traversal description for the person's friends and
-        // friends of friends.
+        // Create a traversal description for the person's friends of
+        // friends.
         TraversalDescription knowsTraversal = db.traversalDescription()
             .breadthFirst()
             .relationships(LdbcUtils.EdgeType.KNOWS)
@@ -68,7 +68,7 @@ public class Query10 {
             for (Relationship edgeToTag : person.getRelationships(LdbcUtils.EdgeType.HAS_INTEREST))
                 personInterests.add(edgeToTag.getEndNode());
 
-            // Iterate over the person's friends and friends of friends.
+            // Iterate over the person's friends of friends.
             for (Node friend : knowsTraversal.traverse(person).nodes()) {
 
                 // Eliminate friends not born in the month.
