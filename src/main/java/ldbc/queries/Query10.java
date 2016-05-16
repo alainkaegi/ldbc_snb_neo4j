@@ -14,6 +14,7 @@ import java.util.Queue;
 import java.util.PriorityQueue;
 
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Calendar;
 
 import org.neo4j.graphdb.Transaction;
@@ -73,7 +74,7 @@ public class Query10 {
 
                 // Eliminate friends not born in the month.
                 Date birthday = new Date(LdbcUtils.getBirthday(friend));
-                Calendar cal = Calendar.getInstance();
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 cal.setTime(birthday);
                 // Calendar.MONTH ranges from 0 to 11;
                 // month ranges from 1 to 12.
