@@ -61,8 +61,9 @@ public class Query10Driver {
 
             // Time sampling.
             ThreadMXBean bean = ManagementFactory.getThreadMXBean();
-            long startTime = bean.getCurrentThreadUserTime();
-            long startTotal = bean.getCurrentThreadCpuTime();
+            long startTime = System.nanoTime();
+            long threadUserStartTime = bean.getCurrentThreadUserTime();
+            long threadTotalStartTime = bean.getCurrentThreadCpuTime();
 
             // Execute the queries.
             while (scanner.findInLine(pattern) != null) {
@@ -80,19 +81,23 @@ public class Query10Driver {
             }
 
             // Time sampling.
-            long endTime = bean.getCurrentThreadUserTime();
-            long endTotal = bean.getCurrentThreadCpuTime();
+            long stopTime = System.nanoTime();
+            long threadUserStopTime = bean.getCurrentThreadUserTime();
+            long threadTotalStopTime = bean.getCurrentThreadCpuTime();
 
             // Print timing information if requested.
             if (timing) {
-                long userTime = (endTime - startTime)/1000;
-                long cpuTime = (endTotal - startTotal)/1000;
-                long sysTime = cpuTime - userTime;
-                float upercent = 100 * (userTime / (float)cpuTime);
-                float spercent = 100 * (sysTime / (float)cpuTime);
-                System.out.println("Elapsed time is " + cpuTime + " microseconds");
-                System.out.println("User time is " + userTime + " microseconds (" + upercent + "%)");
-                System.out.println("System time is " + sysTime + " microseconds (" + spercent + "%)");
+                long elapsedTime = (stopTime - startTime)/1000;
+                long threadUserTime = (threadUserStopTime - threadUserStartTime)/1000;
+                long threadTotalTime = (threadTotalStopTime - threadTotalStartTime)/1000;
+                long threadSysTime = threadTotalTime - threadUserTime;
+                float tpercent = 100 * (threadTotalTime / (float)elapsedTime);
+                float upercent = 100 * (threadUserTime / (float)elapsedTime);
+                float spercent = 100 * (threadSysTime / (float)elapsedTime);
+                System.out.println("Elapsed time is " + elapsedTime + " microseconds");
+                System.out.println("Thread total time is " + threadTotalTime + " microseconds (" + tpercent + "%)");
+                System.out.println("Thread user time is " + threadUserTime + " microseconds (" + upercent + "%)");
+                System.out.println("Thread system time is " + threadSysTime + " microseconds (" + spercent + "%)");
             }
         }
         catch (FileNotFoundException e) {
