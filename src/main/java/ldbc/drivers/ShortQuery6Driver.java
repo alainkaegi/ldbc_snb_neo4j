@@ -7,6 +7,7 @@
 package ldbc.drivers;
 
 import java.io.PrintStream;
+import java.io.File;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
@@ -29,7 +30,7 @@ public class ShortQuery6Driver {
 
         parseArgs(argv);
 
-        db = new GraphDatabaseFactory().newEmbeddedDatabase(graphName);
+        db = new GraphDatabaseFactory().newEmbeddedDatabase(new File(graphName));
 
         LdbcShortQuery6MessageForumResult r = ShortQuery6.query(db, messageId);
 

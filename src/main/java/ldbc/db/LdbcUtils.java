@@ -210,8 +210,7 @@ public class LdbcUtils {
     public static Node findNodeByLabelAndId(GraphDatabaseService db,
                                             Label label,
                                             long id) {
-        ResourceIterator<Node> allMatchingNodes
-            = db.findNodesByLabelAndProperty(label, Keys.ID, id).iterator();
+        ResourceIterator<Node> allMatchingNodes = db.findNodes(label, Keys.ID, id);
         return allMatchingNodes.hasNext() ? allMatchingNodes.next() : null;
     }
 

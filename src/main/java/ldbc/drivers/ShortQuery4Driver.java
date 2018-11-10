@@ -7,6 +7,7 @@
 package ldbc.drivers;
 
 import java.io.PrintStream;
+import java.io.File;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -33,7 +34,7 @@ public class ShortQuery4Driver {
 
         parseArgs(argv);
 
-        db = new GraphDatabaseFactory().newEmbeddedDatabase(graphName);
+        db = new GraphDatabaseFactory().newEmbeddedDatabase(new File(graphName));
 
         LdbcShortQuery4MessageContentResult r = ShortQuery4.query(db, messageId);
 

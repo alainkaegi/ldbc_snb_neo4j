@@ -7,6 +7,7 @@
 package ldbc.drivers;
 
 import java.io.PrintStream;
+import java.io.File;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ShortQuery2Driver {
 
         parseArgs(argv);
 
-        db = new GraphDatabaseFactory().newEmbeddedDatabase(graphName);
+        db = new GraphDatabaseFactory().newEmbeddedDatabase(new File(graphName));
 
         List<LdbcShortQuery2PersonPostsResult> r = ShortQuery2.query(db, personId, 10);
 

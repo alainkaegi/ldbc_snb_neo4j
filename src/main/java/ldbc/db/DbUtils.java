@@ -31,7 +31,7 @@ public class DbUtils {
                                                   Object propertyValue)
     {
         ResourceIterator<Node> allMatchingNodes
-            = db.findNodesByLabelAndProperty(label, propertyKey, propertyValue).iterator();
+            = db.findNodes(label, propertyKey, propertyValue);
         return allMatchingNodes.hasNext() ? allMatchingNodes.next() : null;
     }
 

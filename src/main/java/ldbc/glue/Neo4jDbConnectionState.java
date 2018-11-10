@@ -7,6 +7,7 @@
 package ldbc.glue;
 
 import java.io.IOException;
+import java.io.File;
 
 import com.ldbc.driver.DbConnectionState;
 
@@ -18,7 +19,7 @@ public class Neo4jDbConnectionState extends DbConnectionState {
     private GraphDatabaseService client;
 
     public Neo4jDbConnectionState(String url) {
-        client = new GraphDatabaseFactory().newEmbeddedDatabase(url);
+        client = new GraphDatabaseFactory().newEmbeddedDatabase(new File(url));
     }
 
     public GraphDatabaseService getClient() {

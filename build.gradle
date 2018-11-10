@@ -2,7 +2,7 @@
  * Copyright © 2016 Alain Kägi
  */
 
-def neo4jVersion = '2.1.4'
+def neo4jVersion = '3.4.7'
 def ldbcDriverVersion = '0.2-SNAPSHOT'
 
 def db = '../ldbc_socialnet_bm_neo4j/db/'

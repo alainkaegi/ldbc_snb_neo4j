@@ -45,7 +45,7 @@ public class Query13Driver {
             parseArgs(argv);
 
             // Open the database.
-            db = new GraphDatabaseFactory().newEmbeddedDatabase(graphName);
+            db = new GraphDatabaseFactory().newEmbeddedDatabase(new File(graphName));
 
             // Open the parameter file, skip the header, and compile a
             // regular expression pattern describing an input line.
