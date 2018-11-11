@@ -1,7 +1,7 @@
 /**
  * DB connection manager for this Neo4j LDBC SNB implementation.
  *
- * Copyright © 2016 Alain Kägi
+ * Copyright © 2016, 2018 Alain Kägi
  */
 
 package ldbc.glue;

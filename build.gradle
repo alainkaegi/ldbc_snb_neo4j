@@ -1,5 +1,5 @@
 /**
- * Copyright © 2016 Alain Kägi
+ * Copyright © 2016, 2018 Alain Kägi
  */
 
 def neo4jVersion = '3.4.7'

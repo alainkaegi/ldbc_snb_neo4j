@@ -1,7 +1,7 @@
 /**
  * Driver for short read query 7.
  *
- * Copyright © 2016 Alain Kägi
+ * Copyright © 2016, 2018 Alain Kägi
  */
 
 package ldbc.drivers;
