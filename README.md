@@ -63,20 +63,18 @@ Two key parameters controls the benchmark's behavior.
 Requirements
 ============
 
-- gradle version 2.10
-- java 1.7
+- Neo4j version 3.0 (or later)
+- gradle version 3.4.1 (or later)
+- java 1.8 (or later)
 - My version of the Neo4j Data Importer for the LDBC Social Network
   Benchmark [5]
-- maven 3.0.5
-- hadoop 2.6.0
+- maven 3.5.2 (or later)
+- hadoop 2.6.0 (or later)
 
 Instructions
 ============
 
-I tested these instructions on a Mac mini running Yosemite (version
-10.10.5) and Ubuntu running Wily Werewolf (15.10) except for the data
-generation phase which I have only performed on the system running
-Ubuntu.
+I tested these instructions on Ubuntu running Bionic Beaver (18.04).
 
 These instructions assume that you cloned the various source packages
 mentioned here (data generator, benchmark driver, data importer, this
@@ -219,8 +217,11 @@ validation project [6].
 
 3. Concatenate CSV content of
    ldbc_snb_interactive_validation/neo4j/e/social_network/string_date/
-   into ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date_merged/
-   (e.g., ./scripts/cat.sh ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date/ ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date_merged/).
+   into
+   ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date_merged/
+   (e.g., ./scripts/cat.sh
+   ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date/
+   ../ldbc_snb_interactive_validation/neo4j/e/social_network/string_date_merged/).
 
 4. Load CSV files into a database using my version of the Neo4j Data
    Importer [5] into ../ldbc_socialnet_bm_neo4j/validation_db/.
@@ -228,10 +229,10 @@ validation project [6].
 5. Copy the property file provided with that project and name it
    validation.properties (e.g., cp
    ../ldbc_snb_interactive_validation/neo4j/readwrite_neo4j--ldbc_driver_config--db_validation.properties
-   ./validation.properties).  Edit the LDBC driver configuration section
-   of validation.properties.  Set 'database' to 'ldbc.glue.Neo4jDb',
-   'url' to '../ldbc_socialnet_bm_neo4j/validation_db/',
-   'validate_database' to
+   ./validation.properties).  Edit the LDBC driver configuration
+   section of validation.properties.  Set 'database' to
+   'ldbc.glue.Neo4jDb', 'url' to
+   '../ldbc_socialnet_bm_neo4j/validation_db/', 'validate_database' to
    '../ldbc_snb_interactive_validation/neo4j/e/validation_params.csv',
    and 'ldbc.snb.interactive.parameters_dir' to
    '../ldbc_snb_interactive_validation/neo4j/e/substitution_parameters/'.
